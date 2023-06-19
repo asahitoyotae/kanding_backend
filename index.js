@@ -8,7 +8,7 @@ const app = express();
 //Enable CORS
 app.use(
   cors({
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000", "https://kanding-001-p8u3.vercel.app"],
   })
 );
 

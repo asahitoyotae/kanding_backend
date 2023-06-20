@@ -6,7 +6,7 @@ const jwt = require("jsonwebtoken");
 
 router.post("/completion", access_validator, async (req, res) => {
   const url = "https://api.openai.com/v1/chat/completions";
-  const headers = {
+  const header = {
     "content-type": "application/json",
     Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
   };
@@ -21,12 +21,13 @@ router.post("/completion", access_validator, async (req, res) => {
   };
   try {
     const user = await User.findOne({ _id: req.user.id });
+
     if (!user) {
       return res
         .status(403)
         .send({ message: "Access Denied no Id exist", user: req.user });
     }
-    const response = await axios.post(url, body, { headers });
+    const response = await axios.post(url, body, { headers: header });
     const message = response.data.choices[0].message;
     if (chatId) {
       const prev_chatObject = user.prev_chats.find(
@@ -68,6 +69,7 @@ router.post("/completion", access_validator, async (req, res) => {
     });
   } catch (error) {
     return res.status(500).send({
+      error: error,
       res: {
         role: "assistant",
         content: "an error occured please try again later",

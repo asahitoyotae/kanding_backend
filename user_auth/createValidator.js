@@ -3,13 +3,13 @@ const jwt = require("jsonwebtoken");
 const authorizedToRegister = (req, res, next) => {
   const auth_keys = req.header("auth-key");
   if (!auth_keys) {
-    return res.status(403).send("Please ask kanding code to admin");
+    return res.status(403).send("Please Ask Admin for kanding code!");
   }
 
   if (auth_keys === process.env.CREATE_VALIDATION_KEY) {
     next();
   } else {
-    res.status(403).send("Opps... Seems like you're from planet Kokak");
+    res.status(403).send("Please Ask Admin for kanding code!");
   }
 };
 

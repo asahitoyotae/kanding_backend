@@ -38,7 +38,7 @@ router.post("/create", authorizedToRegister, async (req, res) => {
 
     auth: {
       user: "asahitoyotae@gmail.com",
-      pass: "c g c b x e e i z p e y i u z a",
+      pass: process.env.EMAIL_SECRET,
     },
   });
 
@@ -65,22 +65,23 @@ router.post("/create", authorizedToRegister, async (req, res) => {
       from: "asahitoyotae@gmail.com",
       to: req.body.email,
       subject: "Email Verifaction for Kanding",
-      html: `
-        <html>
+      html: `<html>
           <body>
-            <div style=" padding: 3rem; width: 50%; margin: 50px auto; border: 1px solid black; border-radius: 15px;">
+            <div style="padding: 3rem; width: 50%; margin: 50px auto; border: 1px solid black; border-radius: 15px;">
               <h1 style="text-align: center">Kanding</h1>
-              <p style="text-align: center; color: gray; font-size: 1.2rem; font-weight: bold">
+              <p style="text-align: center; color: gray; font-size: 1rem; font-weight: bold">
                 You recieve this email because you are trying to register to
                 kanding.com to verify your account please click the button
                 bellow
               </p>
-              <a
-                style="background-color: #4CAF50; color: white; padding: 10px 50px; border: none; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 2rem; margin: 2rem auto;"
-                href=http://localhost:3000/validate/${validationToken}
-              >
-                Verify
-              </a>
+              <div style="width: 100%; margin: 50px 0; display: flex; justify-content: center; align-items: center" >
+                <a
+                  style="background-color: #4CAF50; margin-left: auto; margin-right: auto;  color: white; padding: 10px 50px; border: none; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 1.1rem; "
+                  href=https://kanding-001-p8u3.vercel.app/validate/${validationToken}
+                >
+                  Verify
+                </a>
+              </div>
               <p style="color: gray; text-align: center;">
                 If you did not make this request, simplr ignore this message and
                 never click on the verfiy button
@@ -100,7 +101,7 @@ router.post("/create", authorizedToRegister, async (req, res) => {
         return res.status(200).send({
           success: true,
           new_user: { email: savedUser.email, username: savedUser.username },
-          message: info,
+          info: info.accepted,
         });
       }
     });
